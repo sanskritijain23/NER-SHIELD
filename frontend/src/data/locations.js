@@ -113,7 +113,46 @@ export const getLocations = () => {
   return Promise.resolve(locations);
 };
 
-export const getLocationRisk = (locationId) => {
+const API_BASE_URL = "http://127.0.0.1:8000";
+
+export const getLocationRisk = async (locationId) => {
   const location = locations.find(loc => loc.id === locationId);
-  return Promise.resolve(location);
+
+  if (!location) {
+    throw new Error(`Location not found for id: ${locationId}`);
+  }
+
+  let response;
+
+  try {
+    response = await fetch(
+      `${API_BASE_URL}/api/risk/${encodeURIComponent(location.name)}`
+    );
+  } catch (err) {
+    throw new Error(
+      `Unable to reach the risk backend at ${API_BASE_URL}. Is it running? (${err.message})`
+    );
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      `Backend returned an error for "${location.name}": ${response.status} ${response.statusText}`
+    );
+  }
+
+  const data = await response.json();
+
+  return {
+    ...location,
+    latitude: data.latitude,
+    longitude: data.longitude,
+    rainfall: data.rainfall,
+    slope: data.slope,
+    elevation: data.elevation,
+    previousLandslide: Boolean(data.previous_landslide),
+    riskScore: data.risk_score,
+    riskLevel: data.risk_level,
+    recommendation: data.recommendation,
+    alert: data.alert
+  };
 };
