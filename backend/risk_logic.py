@@ -4,63 +4,82 @@ backend/risk_logic.py
 Owner: Member 4 (Backend)
 
 Responsibility:
-    Convert a raw numeric risk score (from the ML model) into a
-    human-readable risk level, an alert flag, and a recommended action.
+    Convert a raw numeric risk score (0-100) into a human-readable risk
+    level, a recommendation message, and an alert flag.
 
-NOTE: Placeholder only. Thresholds/logic below are NOT implemented yet
-(no arbitrary/fake thresholds have been chosen) — this needs to be
-decided deliberately, ideally in coordination with Member 2 (ML) so
-the score scale (e.g. 0-1 vs 0-100) is understood.
+Thresholds (Step 1 prototype, subject to review with Member 2 once the
+real model's score distribution is known):
+
+    0  - 30   -> LOW
+    31 - 60   -> MEDIUM
+    61 - 80   -> HIGH
+    81 - 100  -> CRITICAL
 """
+
+import math
+
+_LOW_MAX = 30
+_MEDIUM_MAX = 60
+_HIGH_MAX = 80
+
+
+def _validate_score(score: float) -> float:
+    """Ensure the score is a real, finite number within the valid 0-100 range."""
+    try:
+        score = float(score)
+    except (TypeError, ValueError):
+        raise ValueError(f"Risk score must be a number, got: {score!r}")
+
+    if math.isnan(score) or math.isinf(score):
+        raise ValueError(f"Risk score must be a finite number, got: {score}")
+
+    if score < 0 or score > 100:
+        raise ValueError(f"Risk score must be between 0 and 100, got: {score}")
+
+    return score
 
 
 def get_risk_level(score: float) -> str:
     """
-    Convert a numeric risk score into a categorical risk level.
-
-    Args:
-        score: Risk score/probability returned by the ML model
-               (scale to be confirmed with Member 2, e.g. 0.0-1.0).
+    Convert a numeric risk score (0-100) into a categorical risk level.
 
     Returns:
-        A risk level string, e.g. one of: "Low", "Moderate", "High", "Severe".
-
-    TODO (Member 4):
-        - Decide on the score scale together with Member 2.
-        - Define clear thresholds mapping score ranges to risk levels.
-        - Document the chosen thresholds here in the docstring.
+        One of: "LOW", "MEDIUM", "HIGH", "CRITICAL".
     """
-    raise NotImplementedError("TODO: implement score -> risk level mapping.")
+    score = _validate_score(score)
+
+    if score <= _LOW_MAX:
+        return "LOW"
+    elif score <= _MEDIUM_MAX:
+        return "MEDIUM"
+    elif score <= _HIGH_MAX:
+        return "HIGH"
+    else:
+        return "CRITICAL"
 
 
-def should_alert(risk_level: str) -> bool:
+def get_recommendation(score: float) -> str:
     """
-    Decide whether an alert should be raised for the given risk level.
+    Provide a simple prototype-level recommendation message for the
+    given risk score.
+    """
+    level = get_risk_level(score)
 
-    Args:
-        risk_level: The risk level string from get_risk_level().
+    messages = {
+        "LOW": "Normal monitoring recommended",
+        "MEDIUM": "Increased monitoring recommended",
+        "HIGH": "Field inspection recommended",
+        "CRITICAL": "Immediate attention recommended",
+    }
+    return messages[level]
+
+
+def is_alert_required(score: float) -> bool:
+    """
+    Decide whether an alert should be raised for the given risk score.
 
     Returns:
-        True if an alert should be shown/raised, False otherwise.
-
-    TODO (Member 4): Implement the alerting rule, e.g. alert=True for
-    "High" and "Severe" risk levels.
+        False for LOW/MEDIUM, True for HIGH/CRITICAL.
     """
-    raise NotImplementedError("TODO: implement alert decision logic.")
-
-
-def get_recommended_action(risk_level: str) -> str:
-    """
-    Provide a recommended action/message for the given risk level.
-
-    Args:
-        risk_level: The risk level string from get_risk_level().
-
-    Returns:
-        A short human-readable recommended action string.
-
-    TODO (Member 4): Define recommended actions per risk level
-    (e.g. "Monitor conditions", "Prepare for evacuation", etc.),
-    ideally reviewed with domain-knowledge sources for the NER region.
-    """
-    raise NotImplementedError("TODO: implement recommended action mapping.")
+    level = get_risk_level(score)
+    return level in ("HIGH", "CRITICAL")
