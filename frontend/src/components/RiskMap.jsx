@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap, ZoomControl } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { locations } from '../data/locations';
@@ -67,13 +67,7 @@ export const RiskMap = ({ selectedLocationId, onMarkerClick }) => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           
-          {/* Add custom zoom control position */}
-          <div className="leaflet-top leaflet-left mt-14 ml-2">
-            <div className="leaflet-control-zoom leaflet-bar leaflet-control">
-              <a className="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in">+</a>
-              <a className="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out">&#x2212;</a>
-            </div>
-          </div>
+          <ZoomControl position="topright" />
 
           <MapController selectedLocationId={selectedLocationId} />
 

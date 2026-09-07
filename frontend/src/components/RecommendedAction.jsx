@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldAlert, Info } from 'lucide-react';
+import { ShieldAlert } from 'lucide-react';
 
 export const RecommendedAction = ({ riskLevel }) => {
   if (!riskLevel) return null;
