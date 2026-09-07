@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { LocationSelector } from '../components/LocationSelector';
 import { RiskMap } from '../components/RiskMap';
 import { RiskAssessment } from '../components/RiskAssessment';
@@ -6,12 +6,12 @@ import { RecommendedAction } from '../components/RecommendedAction';
 import { RiskFactors } from '../components/RiskFactors';
 import { QuickInfo } from '../components/QuickInfo';
 import { AboutCard } from '../components/AboutCard';
-import { getLocationRisk } from '../data/locations';
+import { locations, getLocationRisk } from '../data/locations';
 import { getRiskClassification } from '../utils/riskUtils';
 
 export const Home = () => {
-  const [selectedLocation, setSelectedLocation] = useState(null);
-  const [riskLevel, setRiskLevel] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(locations[0]);
+  const [riskLevel, setRiskLevel] = useState(() => getRiskClassification(locations[0].riskScore));
 
   const handleLocationChange = async (locationId) => {
     const location = await getLocationRisk(locationId);
@@ -20,11 +20,6 @@ export const Home = () => {
       setRiskLevel(getRiskClassification(location.riskScore));
     }
   };
-
-  // Initial load
-  useEffect(() => {
-    handleLocationChange('loc-1'); // Default to Shillong
-  }, []);
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">

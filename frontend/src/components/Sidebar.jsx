@@ -33,6 +33,7 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
             <NavLink
               key={item.name}
               to={item.path}
+              end={item.path === '/'}
               className={({ isActive }) =>
                 `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                   isActive 
