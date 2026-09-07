@@ -1,0 +1,11 @@
+Location,District,State,Latitude,Longitude,Rainfall_24h_mm,Rainfall_3day_mm,Slope_degree,Previous_Landslide,Risk_Score,Risk_Level,Recommended_Action
+Cherrapunji,East Khasi Hills,Meghalaya,25.3000,91.7000,182,410,42,Yes,92,CRITICAL,"Immediate evacuation advisory; alert disaster management authorities; close roads near vulnerable slopes."
+Haflong,Dima Hasao,Assam,25.1667,93.0167,140,320,38,Yes,85,CRITICAL,"Immediate evacuation advisory; alert disaster management authorities; close roads near vulnerable slopes."
+Gangtok,East Sikkim,Sikkim,27.3389,88.6065,110,265,36,Yes,78,HIGH,"Issue local advisory; restrict access to vulnerable slopes; prepare evacuation plan."
+Shillong,East Khasi Hills,Meghalaya,25.5788,91.8933,95,230,31,Yes,72,HIGH,"Issue local advisory; restrict access to vulnerable slopes; prepare evacuation plan."
+Kohima,Kohima,Nagaland,25.6751,94.1086,78,190,29,Yes,68,HIGH,"Issue local advisory; restrict access to vulnerable slopes; prepare evacuation plan."
+Aizawl,Aizawl,Mizoram,23.7271,92.7176,70,175,27,Yes,64,HIGH,"Issue local advisory; restrict access to vulnerable slopes; prepare evacuation plan."
+Itanagar,Papum Pare,Arunachal Pradesh,27.0844,93.6053,55,120,18,No,45,MEDIUM,"Increase monitoring frequency; inspect drainage and slope conditions."
+Guwahati,Kamrup Metropolitan,Assam,26.1445,91.7362,48,95,9,No,35,MEDIUM,"Increase monitoring frequency; inspect drainage and slope conditions."
+Imphal,Imphal West,Manipur,24.8170,93.9368,30,60,4,No,18,LOW,"Routine monitoring; no immediate action required."
+Agartala,West Tripura,Tripura,23.8315,91.2868,26,52,3,No,12,LOW,"Routine monitoring; no immediate action required."
