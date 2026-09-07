@@ -1,0 +1,13 @@
+# NER-SHIELD prototype dependencies
+# Zero-budget stack: keep this list minimal and free/open-source only.
+
+streamlit          # Frontend dashboard (Member 5)
+pandas             # Data handling (Member 1, Backend)
+scikit-learn       # ML model training/prediction (Member 2)
+folium             # Map rendering with OpenStreetMap (Member 3)
+streamlit-folium   # Embed Folium maps inside Streamlit
+joblib             # Save/load trained ML models (Member 2)
+
+# Add any new dependency here with a short comment on why it's needed.
+# Keep versions unpinned for now (prototype stage); pin versions later
+# once the app is stable, for reproducibility.
