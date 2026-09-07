@@ -2,7 +2,7 @@
 
 **AI-Based Early Warning and Landslide Risk Monitoring System for the North Eastern Region of India.**
 
-Zero-budget software prototype built with Python, Streamlit, Scikit-learn, and Folium/OpenStreetMap.
+Zero-budget software prototype built with Python, React, Scikit-learn, and React-Leaflet/OpenStreetMap.
 
 > ⚠️ Status: **Project structure / scaffold only.** No business logic has been implemented yet.
 > Every module contains placeholder functions and docstrings marking what needs to be built.
@@ -13,10 +13,10 @@ Zero-budget software prototype built with Python, Streamlit, Scikit-learn, and F
 
 | Layer      | Technology                     |
 |------------|---------------------------------|
-| Frontend   | Streamlit                       |
+| Frontend   | React (Vite + Tailwind CSS)     |
 | Backend    | Plain Python (service modules)  |
 | ML         | Scikit-learn                    |
-| Map / GIS  | Folium + OpenStreetMap          |
+| Map / GIS  | React-Leaflet + OpenStreetMap   |
 | Data       | CSV files (`data/`)             |
 
 ---
@@ -49,7 +49,9 @@ NER-SHIELD/
 │   └── result_service.py      # Builds final result dictionary (Member 4)
 │
 ├── frontend/
-│   └── dashboard.py           # Streamlit UI (Member 5)
+│   ├── src/                   # React source code (Member 5)
+│   ├── package.json           # Node dependencies
+│   └── vite.config.js         # React build config
 │
 ├── map/
 │   └── map_service.py         # Folium map rendering (Member 3)
@@ -91,8 +93,8 @@ backend/risk_logic.py  (score -> risk level, alert, action)
 backend/result_service.py  (builds final result dict)
         │
         ▼
-frontend/dashboard.py  ◄──►  map/map_service.py
-   (both consume the backend's result dictionary — never the raw model)
+frontend/ (React UI)  ◄──►  backend/ API
+   (Both consume the backend's result dictionary — never the raw model)
 ```
 
 ---
@@ -138,9 +140,9 @@ frontend/dashboard.py  ◄──►  map/map_service.py
 
 ### Member 5 — Frontend
 - Owns: `frontend/`
-- Uses Streamlit to: select a location, call the backend, and display
+- Uses React, Vite, and Tailwind CSS to: select a location, fetch from the backend, and display
   risk score, risk level, rainfall/slope/elevation, alert, recommended
-  action, and the map.
+  action, and the interactive map (via React-Leaflet).
 
 ### Member 6 — Testing & Integration
 - Owns: `tests/`
@@ -151,15 +153,17 @@ frontend/dashboard.py  ◄──►  map/map_service.py
 ## 5. Getting Started
 
 ```bash
-# 1. Create and activate a virtual environment (recommended)
+# 1. Create and activate a virtual environment (recommended for backend/ML)
 python -m venv venv
 source venv/bin/activate      # on Windows: venv\Scripts\activate
 
-# 2. Install dependencies
+# 2. Install Python dependencies
 pip install -r requirements.txt
 
-# 3. Run the app (once frontend is implemented)
-streamlit run app.py
+# 3. Setup and Run the Frontend
+cd frontend
+npm install
+npm run dev
 ```
 
 ## 6. Next Steps
